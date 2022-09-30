@@ -30,7 +30,6 @@ song_list = [song.getText().strip("\n \t") for song in soup.find_all(name="h3", 
 
 year = date.split('-')[0]
 song_uris = []
-
 for song in song_list:
     try:
         song_data = sp.search(q=f"track: {song}, year: {year}", type="track")
@@ -41,7 +40,6 @@ for song in song_list:
         continue
 
 playlist = sp.user_playlist_create(user=user_id, name=f"{date} Billboard 100", public=False)
-
 sp.playlist_add_items(playlist_id=playlist["id"], items=song_uris)
 
 print(playlist["external_urls"]["spotify"])
