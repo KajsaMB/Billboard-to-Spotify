@@ -20,7 +20,8 @@ sp = spotipy.Spotify(
 user = sp.current_user()
 user_id = user["id"]
 
-date = input("Which year would you like to listen to? YYYY-MM-DD:\n")
+phone_nr = input("Enter your phone nr (include +353):\n")
+date = input("Which year would you like to listen to? (in this format YYYY-MM-DD):\n")
 
 url = f"https://www.billboard.com/charts/hot-100/{date}/"
 response = requests.get(url)
@@ -42,4 +43,11 @@ for song in song_list:
 playlist = sp.user_playlist_create(user=user_id, name=f"{date} Billboard 100", public=False)
 sp.playlist_add_items(playlist_id=playlist["id"], items=song_uris)
 
-print(playlist["external_urls"]["spotify"])
+client = Client(os.getenv("ACCOUNT_SID"), os.getenv("AUTH_TOKEN"))
+message = client.messages \
+    .create(
+        body=f"Billboard top 100 songs from {date}: {playlist_link}",
+        from_=os.getenv("SENDER"),
+        to=phone_nr,
+    )
+print(message.status)
