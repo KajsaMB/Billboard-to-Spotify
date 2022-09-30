@@ -5,7 +5,7 @@ import requests
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 
-load_dotenv("local.env")
+load_dotenv(".env")
 sp = spotipy.Spotify(
         auth_manager= SpotifyOAuth(
             scope="playlist-modify-private",
